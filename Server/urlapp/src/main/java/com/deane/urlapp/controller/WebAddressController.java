@@ -7,6 +7,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class WebAddressController {
 	@Autowired
 	private WebAddressRepo webAddressRepo;
 
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("address")
 	public WebAddress createUrl(@RequestBody WebAddress webAddress) {
 
@@ -48,6 +50,7 @@ public class WebAddressController {
 		return this.webAddressRepo.save(webAddress);
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("{shortAddress}")
 	public ResponseEntity<WebAddress> getOriginalFromShortAddress(
 			@PathVariable(value = "shortAddress") String shortAddress) {
