@@ -11,6 +11,7 @@ public class WebAddressUtilities {
 		
 		char map[] = "teapotcups".toCharArray(); 
 	      
+		//converting to positive number hashCode if it ends up being negative
 		String hashCode = String.valueOf(longAddress.hashCode() > 0 ? longAddress.hashCode() : 
 					(longAddress.hashCode() - longAddress.hashCode() - longAddress.hashCode()));
 		

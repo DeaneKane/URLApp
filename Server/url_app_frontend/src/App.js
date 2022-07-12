@@ -1,26 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+
+const LogoViewer = ({logo, alt}) => {
+
+    return (
+        <>
+            <img src={logo} alt={alt} width="20%" height="20%" />
+        </>
+    )
+}
+
+const UrlViewer = ({ url }) => {
+    return (
+        <>
+            <div className="surl-container">
+                <span style={{ fontSize: '.8rem', marginTop: '0rem', marginBottom: '.4rem', color: '#5A2989',}}>Short Web Address</span>
+                <a href={url} rel="noreferrer" target="_blank" style={{ fontSize: '1.1rem' }} className="surl"> {url} </a>
+            </div>
+        </>
+    )
+}
 
 const App = () => {
 
     const [url, setUrl] = useState();
     const [shortUrl, setShortUrl] = useState(null);
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/').then(response => {
-            console.log(response.data);
-        })
-    }, [shortUrl]);
-
-    //defining onChangeHandler function
     const onChangeHandler = (e) => {
         setUrl(e.target.value);
         console.log(url);
     }
 
-    //defining onSubmitHandler function
     const onSubmitHandler = (e) => {
-      console.log('hello', e);
+        console.log('hello', e);
         e.preventDefault();
 
         let formData = {
@@ -33,24 +45,23 @@ const App = () => {
             }
         }).then(response => {
             console.log(response.data);
-            setShortUrl(`https://localhost:8080/${response.data.shortAddress}`);
+            //localhost would be changed to a short host in Prod environment
+            setShortUrl(`http://localhost:8080/${response.data.shortAddress}`);
         })
     }
 
     return (
         <>
+            <div>
+                <LogoViewer alt="Tea Pot" logo="https://freesvg.org/img/1537384961.png" />
+            </div>
             <form onSubmit={onSubmitHandler}>
                 <input required type="URL" onChange={onChangeHandler} placeholder="Enter your web address here" name="" id="" />
                 <button>Submit</button>
             </form>
             {
                 shortUrl ?
-                    <>
-                        <div className="surl-container">
-                            <span style={{ fontSize: '.8rem', marginTop: '0rem', marginBottom: '.5rem', color: '#5A2989', textTransform: 'uppercase' }}>Shortened Web Address</span>
-                            <a href={shortUrl} rel="noreferrer" target="_blank" style={{ fontSize: '1.5rem' }} className="surl"> {shortUrl} </a>
-                        </div>
-                    </>
+                    <UrlViewer url={shortUrl} />
                     : null
             }
         </>
